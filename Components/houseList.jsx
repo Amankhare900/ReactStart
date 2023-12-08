@@ -5,12 +5,11 @@ import AddHouse from "./addHouse";
 const HouseList = () => {
     const [houses, setHouses] = useState([]);
     useEffect(() => {
-        const fetchHouses = async () => {
+        (async () => {
             const response = await fetch("/api/houses");
             const houses = await response.json();
             setHouses(houses);
-        };
-        fetchHouses();
+        })();
     }, []);
     const insertHouse = (value) => {
         setHouses([...houses, value]);
