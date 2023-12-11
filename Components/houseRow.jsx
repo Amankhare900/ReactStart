@@ -2,12 +2,16 @@ import currencyFormatter from "@/helpers/currencyFormatter";
 import { MdDelete, MdAdd } from "react-icons/md";
 import React from "react";
 
-const houseRow = ({ id, address, country, price, deleteHouse }) => {
+const houseRow = ({ id, address, country, price, deleteHouse, onclick }) => {
     return (
-        <tr>
+        <tr onClick={onclick}>
             <td>{address}</td>
             <td>{country}</td>
-            <td>{currencyFormatter.format(price)}</td>
+            {price && (
+                <td className={`${price >= 500000 ? "text-primary" : ""}`}>
+                    {currencyFormatter.format(price)}
+                </td>
+            )}
             <td onClick={() => deleteHouse(id)}>
                 <MdDelete />
             </td>

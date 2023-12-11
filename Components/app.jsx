@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Banner from "@/Components/banner";
 import HouseList from "./houseList";
+import House from "./house";
 const App = () => {
+    const [selectedHouse, setSelectedHouse] = useState();
+    const setSelectedHouseWrapper = (house) => {
+        setSelectedHouse(house);
+    };
     return (
         <>
-            <Banner headerText="Providing houses all over the world" />
-            <HouseList />
+            <Banner>
+                <div>Providing houses all over the world</div>
+            </Banner>
+            {selectedHouse ? (
+                <House house={selectedHouse} />
+            ) : (
+                <HouseList setSelectedHouse={setSelectedHouseWrapper} />
+            )}
         </>
     );
 };

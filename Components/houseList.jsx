@@ -1,20 +1,42 @@
-import { useEffect, useState } from "react";
 import HouseRow from "./houseRow";
 import AddHouse from "./addHouse";
-
-const HouseList = () => {
-    const [houses, setHouses] = useState([]);
-    useEffect(() => {
+import useHouses from "./useHouses";
+import loadingStatus from "@/helpers/loadingStatus";
+import LoadingIndicator from "./loadingIndicator";
+const HouseList = ({ setSelectedHouse }) => {
+    const [houses, setHouses, loadingState] = useHouses();
+    if (loadingState != loadingStatus.loaded) {
+        return <LoadingIndicator loadingState={loadingState} />;
+    }
+    const insertHouse = (data) => {
+        let request;
         (async () => {
-            const response = await fetch("/api/houses");
-            const houses = await response.json();
-            setHouses(houses);
+            const response = await fetch(url, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            request = await response.json();
+            console.log(request);
+            setHouses([...request]);
         })();
-    }, []);
-    const insertHouse = (value) => {
-        setHouses([...houses, value]);
     };
     const deleteHouse = (currId) => {
+        let request;
+        (async () => {
+            const response = await fetch(url, {
+                method: "DELETE",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(currId),
+            });
+            request = await response.json();
+        })();
         setHouses(houses.filter(({ id }) => id != currId));
     };
     return (
@@ -36,7 +58,14 @@ const HouseList = () => {
                 <tbody>
                     {houses.map((h) => (
                         // <HouseRowMem key={h.id} {...{ ...h, deleteHouse }} />
-                        <HouseRow key={h.id} {...{ ...h, deleteHouse }} />
+                        <HouseRow
+                            key={h.id}
+                            {...{
+                                ...h,
+                                deleteHouse,
+                                onclick: () => setSelectedHouse(h),
+                            }}
+                        />
                     ))}
                 </tbody>
             </table>

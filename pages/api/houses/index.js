@@ -43,13 +43,33 @@ export default async function handler(req, res) {
             2
           )
         );
-        res.status(200).json(recordFromBody);
+        res.status(200).json(newHousesArray);
         console.log(`POST /api/houses status: 200`);
       } catch (e) {
         console.log("/api/houses POST error:", e);
       }
       break;
-
+    case "DELETE":
+      try {
+        const recordId = req?.body;
+        const newHousesRecord = houses.filter((value)=> value.id != recordId)
+        const newHousesArray = [...newHousesRecord];
+        writeFile(
+          jsonFile,
+          JSON.stringify(
+            {
+              houses: newHousesArray,
+            },
+            null,
+            2
+          )
+        );
+        res.status(200).json(newHousesRecord);
+        console.log(`DELETE /api/houses status: 200`);
+      } catch (e) {
+        console.log("/api/houses DELETE error:", e);
+      }
+      break;
     default:
       res.setHeader("Allow", ["GET", "PUT"]);
       res.status(405).end(`Method ${method} Not Allowed`);
