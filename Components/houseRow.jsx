@@ -4,8 +4,8 @@ import React from "react";
 
 const houseRow = ({ id, address, country, price, deleteHouse, onclick }) => {
     return (
-        <tr onClick={onclick}>
-            <td>{address}</td>
+        <tr>
+            <td onClick={onclick}>{address}</td>
             <td>{country}</td>
             {price && (
                 <td className={`${price >= 500000 ? "text-primary" : ""}`}>

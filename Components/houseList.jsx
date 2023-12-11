@@ -1,9 +1,10 @@
 import HouseRow from "./houseRow";
 import AddHouse from "./addHouse";
-import useHouses from "./useHouses";
+import useHouses from "../hooks/useHouses";
 import loadingStatus from "@/helpers/loadingStatus";
 import LoadingIndicator from "./loadingIndicator";
 const HouseList = ({ setSelectedHouse }) => {
+    const url = "/api/houses";
     const [houses, setHouses, loadingState] = useHouses();
     if (loadingState != loadingStatus.loaded) {
         return <LoadingIndicator loadingState={loadingState} />;
