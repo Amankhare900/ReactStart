@@ -5,7 +5,7 @@ import loadingStatus from "@/helpers/loadingStatus";
 import LoadingIndicator from "./loadingIndicator";
 const HouseList = ({ setSelectedHouse }) => {
     const url = "/api/houses";
-    const [houses, setHouses, loadingState] = useHouses();
+    const [houses, setHouses, loadingState] = useHouses(url);
     if (loadingState != loadingStatus.loaded) {
         return <LoadingIndicator loadingState={loadingState} />;
     }
