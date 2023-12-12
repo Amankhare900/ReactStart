@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import useGetRequest from "./useGetRequest";
-const useHouses = () => {
-    const url = "/api/houses";
+const useHouses = (url) => {
     const [houses, setHouses] = useState([]);
     const [get, loadingState] = useGetRequest(url);
     useEffect(() => {
@@ -9,7 +8,7 @@ const useHouses = () => {
             const houses = await get();
             setHouses(houses);
         })();
-    }, []);
+    }, [get]);
     return [houses, setHouses, loadingState];
 };
 export default useHouses;
